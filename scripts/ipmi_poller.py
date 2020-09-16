@@ -5,16 +5,15 @@ import urllib3
 import math
 import json
 import datetime
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 requests.packages.urllib3.disable_warnings()
 
 
-class poller():
-
+class poller:
     def sensorType(self, id):
 
         sensorDef = {
-
             "01": "temperature",
             "02": "voltage",
             "04": "fanspeed",
@@ -23,7 +22,6 @@ class poller():
             "c0": "OEM Sensor",
             "0d": "hdd",
             "c1": "wattage",
-
         }
 
         try:
@@ -35,7 +33,6 @@ class poller():
     def unitType(self, unitID):
 
         unitDef = {
-
             "01": "degrees C",
             "02": "degrees F",
             "03": "degrees K",
@@ -44,8 +41,7 @@ class poller():
             "06": "Watts",
             "07": "Joules",
             "12": "R.P.M",
-            "13": "Hz"
-
+            "13": "Hz",
         }
 
         try:
@@ -58,33 +54,33 @@ class poller():
 
         state_String = ""
 
-        if not((reading / 1) % 2) and not((reading / 2) % 2):
+        if not ((reading / 1) % 2) and not ((reading / 2) % 2):
 
-            state_String = 'Not Present. '
+            state_String = "Not Present. "
             state_color = "bgcolor=white"
 
         else:
 
             if int(reading / 1) % 2:
-                state_String += 'Presence detected. '
+                state_String += "Presence detected. "
                 state_color = "bgcolor=green"
             if int(reading / 2) % 2:
-                state_String += 'Power Supply Failure detected. '
+                state_String += "Power Supply Failure detected. "
                 state_color = "bgcolor=red"
             if int(reading / 4) % 2:
-                state_String += 'Predictuve Failure. '
+                state_String += "Predictuve Failure. "
                 state_color = "bgcolor=red"
             if int(reading / 8) % 2:
-                state_String += 'Power Supply input lost (AC/DC). '
+                state_String += "Power Supply input lost (AC/DC). "
                 state_color = "bgcolor=red"
             if int(reading / 16) % 2:
-                state_String += 'Power Supply input lost or out-of-range. '
+                state_String += "Power Supply input lost or out-of-range. "
                 state_color = "bgcolor=red"
             if int(reading / 32) % 2:
-                state_String += 'Power Supply input out-of-range, but present. '
+                state_String += "Power Supply input out-of-range, but present. "
                 state_color = "bgcolor=red"
             if int(reading / 64) % 2:
-                state_String += 'Configuration error. '
+                state_String += "Configuration error. "
                 state_color = "bgcolor=red"
 
         return [state_String, state_color]
@@ -95,22 +91,22 @@ class poller():
         state_color = "bgcolor=red"
 
         if reading == 0:
-            state_String += 'OK'
+            state_String += "OK"
             state_color = "bgcolor=green"
         if int(reading / 1) % 2:
-            state_String += 'General Chassis Intrusion. '
+            state_String += "General Chassis Intrusion. "
         if int(reading / 2) % 2:
-            state_String += 'Drive Bay instrusion. '
+            state_String += "Drive Bay instrusion. "
         if int(reading / 4) % 2:
-            state_String += 'I/O Card area instrusion. '
+            state_String += "I/O Card area instrusion. "
         if int(reading / 8) % 2:
-            state_String += 'Processor area instrusion. '
+            state_String += "Processor area instrusion. "
         if int(reading / 16) % 2:
-            state_String += 'LAN Leash Lost. '
+            state_String += "LAN Leash Lost. "
         if int(reading / 32) % 2:
-            state_String += 'Unauthorized dock. '
+            state_String += "Unauthorized dock. "
         if int(reading / 64) % 2:
-            state_String += 'Fan area intrusion. '
+            state_String += "Fan area intrusion. "
 
         return [state_String, state_color]
 
@@ -120,34 +116,34 @@ class poller():
         state_color = "bgcolor=red"
 
         if int(reading / 1) % 2:
-            state_String += 'Drive Presence'
+            state_String += "Drive Presence"
             state_color = "bgcolor=green"
         if int(reading / 2) % 2:
-            state_String += 'Drive Fault'
+            state_String += "Drive Fault"
             state_color = "bgcolor=red"
         if int(reading / 4) % 2:
-            state_String += 'Predictuve Failure'
+            state_String += "Predictuve Failure"
             state_color = "bgcolor=red"
         if int(reading / 8) % 2:
-            state_String += 'Hot Spare'
+            state_String += "Hot Spare"
             state_color = "bgcolor=red"
         if int(reading / 16) % 2:
-            state_String += 'Consistency / Parity Check'
+            state_String += "Consistency / Parity Check"
             state_color = "bgcolor=red"
         if int(reading / 32) % 2:
-            state_String += 'In Critical Array'
+            state_String += "In Critical Array"
             state_color = "bgcolor=red"
         if int(reading / 64) % 2:
-            state_String += 'In Failed Array'
+            state_String += "In Failed Array"
             state_color = "bgcolor=red"
         if int(reading / 128) % 2:
-            state_String += 'Rebuild / Remap in progress'
+            state_String += "Rebuild / Remap in progress"
             state_color = "bgcolor=red"
         if int(reading / 256) % 2:
-            state_String += 'Rebuild / Remap Aborted'
+            state_String += "Rebuild / Remap Aborted"
             state_color = "bgcolor=red"
         if reading == "00":
-            state_String = 'Not Present'
+            state_String = "Not Present"
             state_color = "bgcolor=white"
 
         return [state_String, state_color]
@@ -156,11 +152,11 @@ class poller():
 
         if signedbitB > 0:
 
-            if ((Num % (0x01 << signedbitB) / (0x01 << (signedbitB - 1))) < 1):
+            if (Num % (0x01 << signedbitB) / (0x01 << (signedbitB - 1))) < 1:
                 return Num % (0x01 << signedbitB - 1)
             else:
                 temp = (Num % (0x01 << signedbitB - 1)) ^ ((0x01 << signedbitB - 1) - 1)
-                return (-1 - temp)
+                return -1 - temp
         else:
             return Num
 
@@ -185,28 +181,20 @@ class poller():
         REQUEST_URL = "%s://%s/cgi/ipmi.cgi" % (self.PROTO, self.IP)
         LOGOUT_URL = "http://%s/cgi/logout.cgi" % (self.IP)
 
-        payload = {
-            "name": self.UNAME,
-            "pwd": self.PASSWD
-        }
+        payload = {"name": self.UNAME, "pwd": self.PASSWD}
 
-        data = {
-            "op": "SENSOR_INFO.XML",
-            "SENSOR_INFO.XML": "(1,ff)",
-            "r": "(1,ff)",
-            "_": ""
-        }
+        data = {"op": "SENSOR_INFO.XML", "SENSOR_INFO.XML": "(1,ff)", "r": "(1,ff)", "_": ""}
 
-        headers = {
-            "Referer": "http://%s/cgi/url_redirect.cgi?url_name=servh_sensor" % (self.IP)
-        }
+        headers = {"Referer": "http://%s/cgi/url_redirect.cgi?url_name=servh_sensor" % (self.IP)}
 
         try:
 
             with requests.Session() as session:
 
                 post = session.post(POST_LOGIN_URL, data=payload, verify=False, timeout=6.0)
-                resp = session.post(REQUEST_URL, headers=headers, data=data, verify=False, timeout=6.0)
+                resp = session.post(
+                    REQUEST_URL, headers=headers, data=data, verify=False, timeout=6.0
+                )
                 logout = session.get(LOGOUT_URL, verify=False, timeout=6.0)
 
                 post.close()
@@ -218,7 +206,14 @@ class poller():
             if self.LOG:
 
                 with open("ipmi_poller_err", "a+") as fo:
-                    fo.write(str(datetime.datetime.now()) + " " + self.HOSTNAME + " webfetch --> " + str(e) + "\r\n")
+                    fo.write(
+                        str(datetime.datetime.now())
+                        + " "
+                        + self.HOSTNAME
+                        + " webfetch --> "
+                        + str(e)
+                        + "\r\n"
+                    )
 
             else:
 
@@ -270,25 +265,25 @@ class poller():
         if self.verbose:
             print(sensorReading, sensorLNR, sensorLC, sensorLNC, sensorUNC, sensorUC, sensorUNR)
 
-        if ((sensorReading <= sensorUNC) and (sensorReading >= sensorLNC)):
-            return ['Normal', 'bgcolor=green']
+        if (sensorReading <= sensorUNC) and (sensorReading >= sensorLNC):
+            return ["Normal", "bgcolor=green"]
 
-        elif (sensorReading > sensorUNR):
-            return ['Upper None-recoverable', 'bgcolor=red']
+        elif sensorReading > sensorUNR:
+            return ["Upper None-recoverable", "bgcolor=red"]
 
-        elif (sensorReading > sensorUC):
-            return ['Upper Critical', 'bgcolor=red']
+        elif sensorReading > sensorUC:
+            return ["Upper Critical", "bgcolor=red"]
 
-        elif (sensorReading > sensorUNC):
-            return ['Upper Non-critical', 'bgcolor=yellow']
+        elif sensorReading > sensorUNC:
+            return ["Upper Non-critical", "bgcolor=yellow"]
 
-        elif (sensorReading >= sensorLC):
-            return ['Lower Non-critical', 'bgcolor=yellow']
+        elif sensorReading >= sensorLC:
+            return ["Lower Non-critical", "bgcolor=yellow"]
 
-        elif (sensorReading >= sensorLNR):
-            return ['Lower Non-recoverable', 'bgcolor=red']
+        elif sensorReading >= sensorLNR:
+            return ["Lower Non-recoverable", "bgcolor=red"]
 
-        return ['N/A', 'bgcolor=white']
+        return ["N/A", "bgcolor=white"]
 
     def sensorValueResolve(self, sensor):
 
@@ -313,10 +308,10 @@ class poller():
             processedValue = self.bitwise(valueRaw, _M, _B, _RB)
             convertValue = (processedValue * SensorReadingScale) / SensorReadingScale
 
-            if _eventReadingType == '01':
+            if _eventReadingType == "01":
                 descr, color = self.sensorThreshold(sensor)
 
-            if (valueRaw == '00' and descr == "N/A") or (valueRaw == '00' and _STYPE == '01'):
+            if (valueRaw == "00" and descr == "N/A") or (valueRaw == "00" and _STYPE == "01"):
                 state = "Not Present"
                 color = "bgcolor=white"
 
@@ -328,10 +323,10 @@ class poller():
             processedValue = self.bitwise(valueRaw, _M, _B, _RB)
             convertValue = (math.pow(processedValue, 2) * SensorReadingScale) / SensorReadingScale
 
-            if _eventReadingType == '01':
+            if _eventReadingType == "01":
                 descr, color = self.sensorThreshold(sensor)
 
-            if valueRaw == '00' and descr == "N/A" or (valueRaw == '00' and _STYPE == '01'):
+            if valueRaw == "00" and descr == "N/A" or (valueRaw == "00" and _STYPE == "01"):
                 state = "Not Present"
                 color = "bgcolor=white"
 
@@ -369,8 +364,17 @@ class poller():
 
                 with open("ipmi_poller_err", "a+") as fo:
 
-                    fo.write(str(datetime.datetime.now()) + " " + self.HOSTNAME + " minidomparse --> " + str(e) + "\r\n")
-                    fo.write(str(datetime.datetime.now()) + " " + self.HOSTNAME + " " + _data + "\r\n")
+                    fo.write(
+                        str(datetime.datetime.now())
+                        + " "
+                        + self.HOSTNAME
+                        + " minidomparse --> "
+                        + str(e)
+                        + "\r\n"
+                    )
+                    fo.write(
+                        str(datetime.datetime.now()) + " " + self.HOSTNAME + " " + _data + "\r\n"
+                    )
 
             else:
 
@@ -379,10 +383,7 @@ class poller():
 
             return None
 
-        self.sensorDB[self.IP] = {
-            "hostname": self.HOSTNAME,
-            "sensors": []
-        }
+        self.sensorDB[self.IP] = {"hostname": self.HOSTNAME, "sensors": []}
 
         Sensors = doc.getElementsByTagName("SENSOR")
 
@@ -399,19 +400,19 @@ class poller():
             state = None
             u_type = None
 
-            if s_type == 'temperature' or s_type == 'fanspeed' or s_type == 'wattage':
+            if s_type == "temperature" or s_type == "fanspeed" or s_type == "wattage":
 
                 value, descr, color, state = self.sensorValueResolve(sensor)
                 value = int(value)
                 u_type = self.unitType(_unitId)
 
-            elif s_type == 'voltage':
+            elif s_type == "voltage":
 
                 value, descr, color, state = self.sensorValueResolve(sensor)
                 value = round(value, 3)
                 u_type = self.unitType(_unitId)
 
-            elif s_type == 'psu' or s_type == 'chassis' or s_type == "hdd":
+            elif s_type == "psu" or s_type == "chassis" or s_type == "hdd":
 
                 descr, color = self.sensorValueResolve(sensor)
 
@@ -419,7 +420,7 @@ class poller():
                 value = 0 if ("green" in color) else 1
                 u_type = "boolean"
 
-            elif s_type == 'OEM Sensor':
+            elif s_type == "OEM Sensor":
 
                 value == self.sensorValueResolve(sensor)
 
@@ -435,17 +436,19 @@ class poller():
 
             if any(param for param in [value, descr, color, state, u_type]):
 
-                self.sensorDB[self.IP]['sensors'].append({
-                    "id": int(_id, 16),
-                    "sensor": _name,
-                    "type": s_type,
-                    "unit": u_type,
-                    "d_value": value,
-                    "description": descr,
-                    "color": color,
-                    "state": state,
-                    "hostname": self.HOSTNAME
-                })
+                self.sensorDB[self.IP]["sensors"].append(
+                    {
+                        "id": int(_id, 16),
+                        "sensor": _name,
+                        "type": s_type,
+                        "unit": u_type,
+                        "d_value": value,
+                        "description": descr,
+                        "color": color,
+                        "state": state,
+                        "hostname": self.HOSTNAME,
+                    }
+                )
 
     def returnServer(self):
         return [server for server in self.sensorDB]
@@ -453,10 +456,14 @@ class poller():
     def returnSensors(self, server):
 
         if self.state:
-            return [sensors for sensors in self.sensorDB[server]['sensors']]
+            return [sensors for sensors in self.sensorDB[server]["sensors"]]
 
         else:
-            return [sensor for sensor in self.sensorDB[server]['sensors'] if sensor['state'] == "Present"]
+            return [
+                sensor
+                for sensor in self.sensorDB[server]["sensors"]
+                if sensor["state"] == "Present"
+            ]
 
     def __init__(self, **kwargs):
 
@@ -497,27 +504,39 @@ class poller():
 
 def main():
 
-    parser = argparse.ArgumentParser(description='IPMI Web Scrubber for SMT X9 motherboards')
-    parser.add_argument('-H', '--host', metavar="", required=True, help='IP to query against')
-    parser.add_argument('-U', '--user', metavar="", required=False, help='Username')
-    parser.add_argument('-P', '--password', metavar="", required=False, help='Password')
-    parser.add_argument('-N', '--hostname', metavar="", required=False, help='Custom Hostname')
-    parser.add_argument('-S', '--state', action='store_true', required=False, help='Omit non active sensors')
-    parser.add_argument('-SSL', '--nosecure', action='store_true', required=False, help='Use http instead of https')
+    parser = argparse.ArgumentParser(description="IPMI Web Scrubber for SMT X9 motherboards")
+    parser.add_argument("-H", "--host", metavar="", required=True, help="IP to query against")
+    parser.add_argument("-U", "--user", metavar="", required=False, help="Username")
+    parser.add_argument("-P", "--password", metavar="", required=False, help="Password")
+    parser.add_argument("-N", "--hostname", metavar="", required=False, help="Custom Hostname")
+    parser.add_argument(
+        "-S", "--state", action="store_true", required=False, help="Omit non active sensors"
+    )
+    parser.add_argument(
+        "-SSL", "--nosecure", action="store_true", required=False, help="Use http instead of https"
+    )
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-p', '--pretty', action='store_true', help='Print something pretty')
-    group.add_argument('-d', '--dump', action='store_true', help='Dumps some xml and json')
-    group.add_argument('-v', '--verbose', action='store_true', help='Pretty verbose')
+    group.add_argument("-p", "--pretty", action="store_true", help="Print something pretty")
+    group.add_argument("-d", "--dump", action="store_true", help="Dumps some xml and json")
+    group.add_argument("-v", "--verbose", action="store_true", help="Pretty verbose")
     args = parser.parse_args()
 
-    ipmi = poller(address=args.host, hostname=args.hostname, nolog=True, verbose=args.verbose,
-                  state=args.state, user=args.user, passwd=args.password, nosecure=args.nosecure)
+    ipmi = poller(
+        address=args.host,
+        hostname=args.hostname,
+        nolog=True,
+        verbose=args.verbose,
+        state=args.state,
+        user=args.user,
+        passwd=args.password,
+        nosecure=args.nosecure,
+    )
 
-    #ipmi = poller(address="192.168.10.32", nolog=True)
-    #ipmi = poller(address="192.168.10.181", nolog=True)
-    #ipmi = poller(address="172.16.205.212", nolog=True)
-    #ipmi = poller(address="172.16.112.147", nolog=True)
+    # ipmi = poller(address="192.168.10.32", nolog=True)
+    # ipmi = poller(address="192.168.10.181", nolog=True)
+    # ipmi = poller(address="172.16.205.212", nolog=True)
+    # ipmi = poller(address="172.16.112.147", nolog=True)
 
     _xml = ipmi.webfetch()
 
@@ -536,10 +555,7 @@ def main():
                 if args.pretty or args.verbose:
                     print(sensor)
 
-                document = {
-                    "fields": sensor,
-                    "host": host
-                }
+                document = {"fields": sensor, "host": host}
 
                 documents.append(document)
 
@@ -547,5 +563,5 @@ def main():
             print(json.dumps(documents, indent=4, sort_keys=False))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
